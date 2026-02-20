@@ -13,7 +13,8 @@ body{font-family:'DM Sans',Helvetica,Arial,sans-serif;background:var(--bg);color
 .site-credit{position:fixed;top:14px;right:20px;z-index:100;text-align:right;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);line-height:1.6}
 
 /* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:90;background:var(--bg);border-bottom:2px solid var(--ink);display:flex;gap:0;padding:0 20px}
+.nav{position:fixed;top:0;left:0;right:0;z-index:90;background:var(--bg);border-bottom:2px solid var(--ink)}
+.nav-inner{max-width:740px;margin:0 auto;padding:0 24px;display:flex;gap:0}
 .nav-tab{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:14px 20px;cursor:pointer;color:var(--mid);border:none;background:none;border-bottom:3px solid transparent;transition:all .2s}
 .nav-tab:hover{color:var(--ink)}
 .nav-tab.active{color:var(--ink);border-bottom-color:var(--accent)}
@@ -116,9 +117,11 @@ tr:last-child td{border-bottom:none}
 <div class="progress-bar" id="progress-bar"></div>
 
 <nav class="nav">
-  <button class="nav-tab active" onclick="showSection('playbook')">Playbook</button>
-  <button class="nav-tab" onclick="showSection('diagnostic')">Diagnostic</button>
-  <button class="nav-tab" onclick="showSection('brand')">Brand as Medium</button>
+  <div class="nav-inner">
+    <button class="nav-tab active" onclick="showSection('playbook')">Playbook</button>
+    <button class="nav-tab" onclick="showSection('diagnostic')">Diagnostic</button>
+    <button class="nav-tab" onclick="showSection('brand')">Brand as Medium</button>
+  </div>
 </nav>
 
 <!-- ════════════════════════════════════ -->
