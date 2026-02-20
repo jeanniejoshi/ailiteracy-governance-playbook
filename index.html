@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Governance by Design: An AI Literacy Playbook — Jeannie Joshi</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ffffff;--ink:#1a1a1a;--mid:#555555;--rule:#cccccc;--accent:#c0392b;--dark:#0d0d0d;--lf:#1a6b4a;--le:#4a3d8f;--lo:#8a5e1a;--surface:#f4f4f4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.8}
+
+.site-credit{position:fixed;top:14px;right:20px;z-index:100;text-align:right;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);line-height:1.6}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:90;background:var(--bg);border-bottom:2px solid var(--ink);display:flex;gap:0;padding:0 20px}
+.nav-tab{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:14px 20px;cursor:pointer;color:var(--mid);border:none;background:none;border-bottom:3px solid transparent;transition:all .2s}
+.nav-tab:hover{color:var(--ink)}
+.nav-tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+
+.section{display:none;max-width:740px;margin:0 auto;padding:64px 24px 80px}
+.section.active{display:block;animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* TYPOGRAPHY */
+h1{font-size:36px;font-weight:700;line-height:1.1;margin-bottom:8px;color:var(--ink)}
+h1 span{color:var(--accent)}
+h2{font-size:22px;font-weight:700;margin:48px 0 16px;padding-top:24px;border-top:3px solid var(--ink)}
+h3{font-size:16px;font-weight:700;margin:32px 0 12px}
+.subtitle{font-size:16px;font-style:italic;color:var(--mid);margin-bottom:32px}
+.eyebrow{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:24px}
+.quote{font-size:18px;font-style:italic;color:var(--ink);border-left:4px solid var(--accent);padding:16px 0 16px 24px;margin:24px 0 32px;background:var(--surface)}
+
+p{font-size:14px;line-height:1.85;margin-bottom:16px}
+strong{font-weight:700}
+em{font-style:italic}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:13px;line-height:1.7}
+th{text-align:left;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mid);padding:10px 12px;border-bottom:3px solid var(--ink);font-weight:400}
+td{padding:12px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.example-table{background:var(--surface);border:2px solid var(--rule)}
+.example-table th{background:#e8e8e8}
+
+.c-f{color:var(--lf)}.c-e{color:var(--le)}.c-o{color:var(--lo)}
+
+/* BUTTONS */
+.btn{background:var(--ink);color:var(--bg);border:none;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:14px 32px;cursor:pointer;transition:background .2s}
+.btn:hover{background:var(--dark)}
+.btn:disabled{background:var(--rule);cursor:default}
+.btn-ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+
+/* DIAGNOSTIC */
+.diag-intro-layers{border-top:2px solid var(--ink);padding-top:20px;margin:24px 0 32px}
+.diag-layer-row{display:flex;align-items:baseline;gap:16px;padding:12px 0;border-bottom:1px solid var(--rule)}
+.diag-layer-num{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);min-width:80px}
+.diag-layer-name{font-size:15px;font-weight:700;min-width:120px}
+.diag-layer-desc{font-size:13px;line-height:1.7;color:var(--mid)}
+
+.context-label{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:6px;display:block;margin-top:24px}
+.context-input{font-family:'DM Sans',sans-serif;font-size:14px;background:transparent;border:none;border-bottom:2px solid var(--ink);color:var(--ink);padding:10px 0;width:100%;outline:none}
+.context-input::placeholder{color:var(--rule)}
+
+.scenario-header{padding:16px 0;border-bottom:3px solid var(--ink);margin-bottom:28px}
+.scenario-tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.scenario-tag.foundational{color:var(--lf)}.scenario-tag.environmental{color:var(--le)}.scenario-tag.operational{color:var(--lo)}
+.scenario-count{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--mid)}
+.scenario-prompt{font-size:18px;font-weight:500;line-height:1.5;margin-bottom:16px}
+.scenario-context{font-size:13px;line-height:1.8;color:var(--mid);font-style:italic;margin-bottom:28px}
+.scenario-options{display:flex;flex-direction:column;margin-bottom:28px}
+.scenario-option{padding:16px 18px;border:2px solid var(--rule);border-bottom:none;cursor:pointer;transition:all .15s;display:flex;gap:14px;align-items:flex-start;font-size:14px;line-height:1.7}
+.scenario-option:last-child{border-bottom:2px solid var(--rule)}
+.scenario-option:hover{background:var(--surface)}
+.scenario-option.selected{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.scenario-option.selected+.scenario-option{border-top-color:var(--ink)}
+.opt-letter{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;min-width:16px;padding-top:3px;color:var(--mid)}
+.scenario-option.selected .opt-letter{color:var(--bg);opacity:.5}
+
+.progress-bar{position:fixed;top:48px;left:0;height:3px;background:var(--accent);transition:width .4s ease;z-index:95}
+
+/* OUTPUT */
+.profile-bar-wrap{margin-bottom:24px}
+.profile-bar-label{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mid);margin-bottom:8px}
+.profile-bar-track{height:10px;background:var(--rule)}
+.profile-bar-fill{height:100%;transition:width 1s ease}
+.profile-bar-fill.foundational{background:var(--lf)}.profile-bar-fill.environmental{background:var(--le)}.profile-bar-fill.operational{background:var(--lo)}
+.profile-bar-marks{display:flex;justify-content:space-between;margin-top:4px}
+.profile-bar-marks span{font-size:9px;letter-spacing:.04em;text-transform:uppercase;color:var(--mid)}
+
+.output-layer-block{border:2px solid var(--rule);border-bottom:none;padding:24px}
+.output-layer-block:last-of-type{border-bottom:2px solid var(--rule)}
+.output-layer-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+.output-layer-name{font-size:16px;font-weight:700}
+.level-tag{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border:2px solid}
+.level-tag.starting-out{color:var(--mid);border-color:var(--rule)}.level-tag.getting-there{color:var(--lo);border-color:var(--lo)}.level-tag.solid{color:var(--lf);border-color:var(--lf)}.level-tag.strong{color:var(--le);border-color:var(--le)}.level-tag.setting-the-pace{color:var(--accent);border-color:var(--accent)}
+.output-response-block{margin-bottom:16px}
+.output-response-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--mid);margin-bottom:4px}
+.output-response-q{font-size:13px;line-height:1.7;margin-bottom:6px}
+.output-response-a{font-size:13px;line-height:1.7;color:var(--mid);padding-left:14px;border-left:3px solid var(--rule)}
+
+.reading-block{border-top:3px solid var(--accent);padding-top:20px;margin:32px 0}
+.reading-label{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.reading-text{font-size:15px;line-height:1.8;font-style:italic}
+
+.footer{margin-top:48px;padding-top:16px;border-top:2px solid var(--ink);display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:10px;color:var(--mid);letter-spacing:.04em}
+
+@media print{.nav,.site-credit,.btn,.progress-bar{display:none}.section{padding:20px 0;display:block!important;max-width:none}}
+@media(max-width:560px){h1{font-size:28px}.nav-tab{padding:12px 10px;font-size:10px}.section{padding:56px 16px 60px}.diag-layer-row{flex-direction:column;gap:4px}}
+</style>
+</head>
+<body>
+
+<div class="site-credit"><div>Jeannie Joshi</div><div>© 2026</div></div>
+
+<div class="progress-bar" id="progress-bar"></div>
+
+<nav class="nav">
+  <button class="nav-tab active" onclick="showSection('playbook')">Playbook</button>
+  <button class="nav-tab" onclick="showSection('diagnostic')">Diagnostic</button>
+  <button class="nav-tab" onclick="showSection('brand')">Brand as Medium</button>
+</nav>
+
+<!-- ════════════════════════════════════ -->
+<!-- PLAYBOOK -->
+<!-- ════════════════════════════════════ -->
+<div id="sec-playbook" class="section active">
+
+<p class="eyebrow">Governance by Design</p>
+<h1>Governance<br><span>by Design</span></h1>
+<p class="subtitle">An AI Literacy Playbook</p>
+<p style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.06em;color:var(--mid);margin-bottom:32px;">Jeannie Joshi</p>
+
+<p class="quote">"We taught people to drive but forgot to design the traffic system."</p>
+
+<p>Most organisations have moved quickly to put AI to work. The tools are in the workflow. The question that has not kept pace: who is responsible when those tools shape decisions about people, careers and reputation?</p>
+
+<p>This playbook sits at the intersection of design practice and AI governance. The questions it raises come from working with AI across brand strategy, design systems and communications — as a practitioner who builds with generative tools, designs workflows around them, and teaches others how to use them responsibly. The governance questions emerged from watching teams navigate AI adoption across content production, brand communications and organisational design, and from research presented at the DMI Design Management Academic Conference (2024) and the Service Design Global Conference (2025). The framework is speculative and meant to be adapted.</p>
+
+<p>This playbook proposes five ideas, each built around a canvas — a tool designed to be filled in by a team. It is written for people who lead brand, communications and AI strategy, and for anyone managing teams where humans and machines share the work.</p>
+
+<h3>Three observations</h3>
+
+<p><strong>AI adoption is outpacing governance design.</strong> AI has accelerated hiring cycles, content production and decision loops. The structures that keep those decisions fair and accountable may not yet be calibrated for this pace. This gap — between what AI can do and what organisations have designed around it — is what this playbook calls the capability-governance gap (first presented at the Service Design Global Conference, October 2025).</p>
+
+<p><strong>Risk is showing up in new places.</strong> Alongside familiar risks — data breaches, compliance failures — a newer category appears to be emerging. Algorithmic bias, synthetic content and quiet shifts in how information reaches people can sit between existing disciplines. These are what might be termed white-space risks.</p>
+
+<p><strong>Regulation and training are necessary — governance design may complete the picture.</strong> The EU has passed sweeping AI legislation. The United States has leaned on voluntary commitments and, as of February 2026, released a national AI Literacy Framework through the Department of Labor (DOL Training and Employment Notice 07-25, February 2026). Regulation sets a floor. Literacy programmes build capability. Governance design — the way systems, roles and accountability are structured — may set the ceiling. This playbook explores that layer.</p>
+
+<h3>The five ideas</h3>
+<table>
+<tr><th>Idea</th><th>What it does</th></tr>
+<tr><td><strong>1. The Trust Grid</strong></td><td>Makes AI's role visible. Names who is responsible. Gives people a way to push back.</td></tr>
+<tr><td><strong>2. The Three-Layer Literacy Stack</strong></td><td>Fills the gap between tool training and actual judgment.</td></tr>
+<tr><td><strong>3. The Experience Map</strong></td><td>Redesigns how people feel as they move through AI-touched systems.</td></tr>
+<tr><td><strong>4. Anti-Environments</strong></td><td>Designed spaces where questioning AI output is part of how the team works.</td></tr>
+<tr><td><strong>5. The Traffic Map</strong></td><td>Makes the rules of the road as clear as the tools on the dashboard.</td></tr>
+</table>
+
+<!-- IDEA 1 -->
+<h2>1. The Trust Grid</h2>
+<p>In a half-human, half-machine team, three questions recur: Can I see what this system is doing? Can I challenge it? And if something goes wrong, will a person take responsibility?</p>
+
+<h3>Three thresholds</h3>
+<p><strong>Where the machine works alone.</strong> Routine tasks where human review adds little — scheduling, formatting, simple classification.</p>
+<p><strong>Where a person reviews.</strong> Candidate shortlists, performance assessments, brand-sensitive content, anything that touches someone's career or reputation. A human reads the output, adds context, and owns the call.</p>
+<p><strong>Where someone can stop the whole thing.</strong> High-impact decisions benefit from a named person with the authority to override or roll back the system, with clear criteria for when to act.</p>
+
+<h3>Canvas 1: The Trust Grid</h3>
+<table>
+<tr><th>Question</th><th>Current state</th><th>Who owns this today?</th><th>What changes in 90 days</th><th>New owner</th></tr>
+<tr><td>What is AI deciding about me, my work or my opportunities?</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Where does a human have the final say?</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Who is responsible when the AI gets it wrong?</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>What data is the system using about me — can I see it, correct it or opt out?</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>If something feels unfair, how do I challenge it?</td><td></td><td></td><td></td><td></td></tr>
+</table>
+
+<h3>Canvas 1B: Threshold Map</h3>
+<table>
+<tr><th>Step in the process</th><th>Machine works alone</th><th>Human review required</th><th>Override authority (named person)</th></tr>
+<tr><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td></tr>
+</table>
+
+<h3>Example: Trust Grid for AI-assisted brand content</h3>
+<table class="example-table">
+<tr><th>Question</th><th>Current state</th><th>Who owns this today?</th><th>What changes in 90 days</th><th>New owner</th></tr>
+<tr><td>What is AI deciding?</td><td>AI generates draft content, headline variants and audience segmentation</td><td>Unclear — marketing team uses generative tools informally</td><td>Each campaign brief documents where AI is used and where human authorship is required</td><td>Brand governance lead</td></tr>
+<tr><td>Where does a human have the final say?</td><td>Editorial lead reviews AI-generated drafts before publication</td><td>Editorial lead, informally</td><td>Editorial sign-off is documented; provenance record shows what the model contributed and what was changed</td><td>Editorial lead (documented)</td></tr>
+<tr><td>Who is responsible when the AI gets it wrong?</td><td>No named owner for AI-generated content that goes out off-brand</td><td>Nobody</td><td>A named brand governance lead reviews AI-assisted content quarterly</td><td>Brand governance lead</td></tr>
+<tr><td>What data is the system using?</td><td>Past campaign copy, brand guidelines, audience data</td><td>Marketing team controls inputs; unclear what training data the model draws on</td><td>Data sources and model boundaries are documented</td><td>Brand operations lead</td></tr>
+<tr><td>How do I challenge an output?</td><td>Writers can reject a draft but there is no formal escalation path</td><td>Nobody</td><td>A feedback loop captures when AI output is rejected and why</td><td>Editorial lead</td></tr>
+</table>
+
+<!-- IDEA 2 -->
+<h2>2. The Three-Layer Literacy Stack</h2>
+<p>AI tool training has expanded across industries. The US Department of Labor's AI Literacy Framework (February 2026) emphasises experiential learning, responsible use and complementary human skills such as judgment and creativity.</p>
+<p>There is a related question that training alone does not always address: when to step back from AI, what to keep out of it, and how to recognise when the model sounds right but is not. Most organisations have invested in teaching people the tools. The next step — and it is a natural one — is helping people think clearly about what sits around those tools.</p>
+<p>Three layers, each building on the one before:</p>
+
+<p><strong class="c-f">Foundational.</strong> Deep reading, clear writing, numeracy, and the ability to sit with a complex brief before asking AI to simplify it. This layer is about the thinking that happens before the tool opens. A question to sit with: <em>what is my own read on this before I consult the model?</em></p>
+<p><strong class="c-e">Environmental.</strong> How the systems around you shape what you see: how a ranking algorithm decides which candidates appear, how a recommendation engine shapes a feed, where accountability disappears into a process that nobody fully owns. <em>Who or what is at the centre of this system? Who has override authority? When does a human review?</em></p>
+<p><strong class="c-o">Operational.</strong> Knowing which tools to use, how to integrate them into workflows, how to set up agents. Also the boundaries — what never to put into a model, when to document that AI contributed, how to hand off to a human cleanly.</p>
+
+<h3>Canvas 2: The Literacy Audit</h3>
+<table>
+<tr><th>Layer</th><th>Where we are now</th><th>Warning signs</th><th>One move this quarter</th><th>Who owns it</th></tr>
+<tr><td><strong class="c-f">Foundational</strong> — Independent thinking before prompting</td><td></td><td>People consult AI before forming their own view</td><td></td><td></td></tr>
+<tr><td><strong class="c-e">Environmental</strong> — Awareness of how systems shape decisions</td><td></td><td>The team cannot explain how the ranking algorithm works</td><td></td><td></td></tr>
+<tr><td><strong class="c-o">Operational</strong> — Awareness of boundaries and documentation</td><td></td><td>Training covers tools but not limits</td><td></td><td></td></tr>
+</table>
+
+<h3>Example: Literacy audit for a brand communications team</h3>
+<table class="example-table">
+<tr><th>Layer</th><th>Where we are now</th><th>Warning signs</th><th>One move this quarter</th><th>Who owns it</th></tr>
+<tr><td><strong class="c-f">Foundational</strong></td><td>Writers and strategists are strong; junior team members reach for AI on first draft</td><td>First drafts lack a point of view until AI is consulted</td><td>One strategic brief per month is completed without AI before a generative draft is produced</td><td>Editorial director</td></tr>
+<tr><td><strong class="c-e">Environmental</strong></td><td>Team knows the tools; few can explain how the content recommendation algorithm shapes audience reach</td><td>Campaign performance is optimised without understanding what the algorithm deprioritises</td><td>One session on how the platform algorithm shapes content distribution</td><td>Head of digital</td></tr>
+<tr><td><strong class="c-o">Operational</strong></td><td>Tools are widely adopted; "never input" boundaries are informal</td><td>Sensitive brand material has been entered into a general-purpose model</td><td>A documented boundary list is created and shared</td><td>Brand governance lead</td></tr>
+</table>
+
+<!-- IDEA 3 -->
+<h2>3. The Experience Map</h2>
+<p>The <strong>orchestrator of experiences</strong> designs how people feel as they move through systems that now include machines. Three dimensions:</p>
+<p><strong>Whether people still feel like decision-makers.</strong> There is a difference between someone who owns their judgment and someone who accepts what the model suggests.</p>
+<p><strong>Whether people can see what is happening to them.</strong> When AI is involved in hiring, performance or content approval, the experience can feel transparent and explainable — or opaque.</p>
+<p><strong>Whether the work still feels like it matters.</strong> In brand work, a related question: how do we design a brand that can evolve and adapt over time? Generative branding — brand systems that are AI-enabled by design, built to flex and respond — has begun shaping how organisations approach activations and content at scale.</p>
+
+<h3>Example: Brand content journey</h3>
+<table class="example-table">
+<tr><th>Stage</th><th>Decision-makers</th><th>AI visible</th><th>AI improves work</th><th>One change</th></tr>
+<tr><td><strong>Brief</strong></td><td>Strategist owns the brief</td><td>No AI at this stage</td><td>N/A</td><td>N/A</td></tr>
+<tr><td><strong>AI draft</strong></td><td>Writer uses AI to explore directions</td><td>Clear this is AI-assisted</td><td>Range of options expands</td><td>Writer documents which elements are AI-generated and which are original</td></tr>
+<tr><td><strong>Editorial review</strong></td><td>Editor reviews with full authority</td><td>Editor sees what was AI-generated</td><td>Editor focuses on judgment and voice</td><td>Provenance is tagged</td></tr>
+<tr><td><strong>Approval</strong></td><td>Approver signs off on final version</td><td>Provenance trail is visible</td><td>Confidence in origin of content</td><td>Approval includes a provenance check</td></tr>
+<tr><td><strong>Publish</strong></td><td>Brand owns the output</td><td>Audience sees the brand</td><td>Content meets brand standards</td><td>Internal provenance metadata for audit</td></tr>
+</table>
+
+<!-- IDEA 4 -->
+<h2>4. Anti-Environments</h2>
+<p>Anti-environments are designed spaces — a weekly review, a standing agenda item, a recurring team conversation — where it is expected to slow down and question the model's output. Three questions frame the discussion:</p>
+<p><em>Where is this wrong? Who is missing? What would we decide if the tool were not here?</em></p>
+
+<h3>Example: Dissent log for brand communications</h3>
+<table class="example-table">
+<tr><th>Date</th><th>Workflow</th><th>AI recommended</th><th>Challenge</th><th>Decision</th><th>Outcome</th></tr>
+<tr><td>15 Jan</td><td>Campaign copy</td><td>Five headline variants; all same emotional register</td><td>"Model is pattern-matching on past campaigns — no range for this audience"</td><td>Modified — editorial wrote three directions, used AI to iterate on strongest</td><td>Human-written direction tested 20% higher</td></tr>
+<tr><td>2 Feb</td><td>Brand voice audit</td><td>12 documents flagged "off-brand"</td><td>"Four are from a regional team whose voice is intentionally adapted — model is treating variation as error"</td><td>Overridden for regional documents</td><td>Guidelines updated to document intentional regional variation</td></tr>
+</table>
+
+<!-- IDEA 5 -->
+<h2>5. The Traffic Map</h2>
+<p>A traffic map shows where AI is required, where it is optional, where it is off limits, and where human review is expected.</p>
+<p>When AI contributes to material that goes to clients, regulators or the public, provenance tools — such as watermarking — make it possible to demonstrate where AI was involved (C2PA, c2pa.org, is developing open standards for this). People own the decisions; the system can show when AI contributed.</p>
+
+<h3>Example: Brand communications function</h3>
+<table class="example-table">
+<tr><th>Process step</th><th>AI required</th><th>AI optional</th><th>AI off limits</th><th>Human review</th><th>Why</th></tr>
+<tr><td>Campaign brief</td><td></td><td>✓</td><td></td><td></td><td>AI can explore territory; strategist owns the brief</td></tr>
+<tr><td>First-draft content</td><td></td><td>✓</td><td></td><td></td><td>Writer may use AI; editorial voice is human</td></tr>
+<tr><td>Regulatory/legal</td><td></td><td></td><td>✓</td><td>✓</td><td>Legal review is fully human</td></tr>
+<tr><td>Executive comms</td><td></td><td></td><td>✓</td><td>✓</td><td>Voice must be authentic</td></tr>
+<tr><td>Social scheduling</td><td>✓</td><td></td><td></td><td></td><td>Automated; content pre-approved</td></tr>
+<tr><td>Crisis comms</td><td></td><td></td><td>✓</td><td>✓</td><td>All crisis content is human</td></tr>
+<tr><td>Internal newsletter</td><td></td><td>✓</td><td></td><td>✓</td><td>AI may assist; editorial reviews</td></tr>
+<tr><td>Media monitoring</td><td>✓</td><td></td><td></td><td></td><td>AI aggregates; human reviews before action</td></tr>
+</table>
+
+<!-- ROLE TABLE -->
+<h2>Who uses this — and how</h2>
+<table>
+<tr><th>Dimension</th><th>Brand / comms leader</th><th>AI strategy leader</th><th>Team manager</th></tr>
+<tr><td><strong>Trust</strong></td><td>Clear thresholds for AI content sign-off; content provenance is owned</td><td>Systems and trails that make accountability possible</td><td>Five trust questions answered for the team each quarter</td></tr>
+<tr><td><strong>Literacy</strong></td><td>Editorial voice and judgment protected as foundational; teams understand content algorithms</td><td>Organisation's boundaries and "never input" list defined</td><td>Team reasoning and AI output discussed together</td></tr>
+<tr><td><strong>Identity</strong></td><td>Experience of brand content through AI-assisted pipelines is actively designed</td><td>Governance is visible across the organisation</td><td>People feel like decision-makers day-to-day</td></tr>
+</table>
+
+<!-- PROFICIENCY -->
+<h2>Proficiency levels</h2>
+<table>
+<tr><th>Level</th><th>What it looks like</th></tr>
+<tr><td><strong>Starting out</strong></td><td>Aware that AI is in the mix; beginning to ask the right questions</td></tr>
+<tr><td><strong>Getting there</strong></td><td>Can name trust gaps and literacy weaknesses in own area</td></tr>
+<tr><td><strong>Solid</strong></td><td>Designing transparency and accountability into complex workflows; defining thresholds</td></tr>
+<tr><td><strong>Strong</strong></td><td>Orchestrating human-AI work across teams; credible with regulators</td></tr>
+<tr><td><strong>Setting the pace</strong></td><td>Shaping how the whole organisation thinks about governance</td></tr>
+</table>
+
+<!-- SOURCES -->
+<h2>Sources</h2>
+<p>US Department of Labor AI Literacy Framework: Training and Employment Notice No. 07-25, February 2026. dol.gov/agencies/eta/advisories/ten-07-25</p>
+<p>EU AI Act: Regulation (EU) 2024/1689, June 2024.</p>
+<p>Capability-governance gap, white-space risk, and the accountability paradox were first presented at the Service Design Global Conference, October 2025.</p>
+<p>Content provenance standards: Coalition for Content Provenance and Authenticity (C2PA), c2pa.org.</p>
+<p>Ethical framing: Floridi, L. et al., "An Ethical Framework for a Good AI Society," <em>Science and Engineering Ethics</em>, 24(3), 2018.</p>
+<p><strong>The three-layer literacy stack, trust grid, experience map, capability trap, and orchestrator-of-experiences model are original frameworks developed by Jeannie Joshi for this playbook.</strong></p>
+
+<div class="footer">
+  <span>Governance by Design: An AI Literacy Playbook · CC BY-SA 4.0</span>
+  <span>© Jeannie Joshi 2026</span>
+</div>
+</div>
+
+<!-- ════════════════════════════════════ -->
+<!-- DIAGNOSTIC -->
+<!-- ════════════════════════════════════ -->
+<div id="sec-diagnostic" class="section">
+
+<div id="diag-intro">
+<p class="eyebrow">Governance by Design · Diagnostic</p>
+<h1>Three-Layer<br><span>Literacy</span><br>Diagnostic</h1>
+<p class="subtitle">Where do you stand? Nine scenarios to find out.</p>
+
+<p>This diagnostic walks you through nine short scenarios — the kind of situations that come up when AI is part of how your team works. There are no trick questions and no wrong answers. Pick the response closest to what you would actually do. At the end, you will see where your strengths and growth areas sit across three layers of AI literacy.</p>
+
+<p>It takes about five minutes. You can print your results or run it again.</p>
+
+<div class="diag-intro-layers">
+  <div class="diag-layer-row"><span class="diag-layer-num">Layer 1</span><span class="diag-layer-name c-f">Foundational</span><span class="diag-layer-desc">Your own thinking before the tool opens</span></div>
+  <div class="diag-layer-row"><span class="diag-layer-num">Layer 2</span><span class="diag-layer-name c-e">Environmental</span><span class="diag-layer-desc">How the systems around you shape what you see</span></div>
+  <div class="diag-layer-row"><span class="diag-layer-num">Layer 3</span><span class="diag-layer-name c-o">Operational</span><span class="diag-layer-desc">Working with AI tools within clear boundaries</span></div>
+</div>
+
+<button class="btn" onclick="diagStart()">Start</button>
+<p style="font-size:12px;color:var(--mid);margin-top:32px;">Based on the Three-Layer Literacy Stack from the Governance by Design</p>
+</div>
+
+<div id="diag-context" style="display:none">
+<p class="eyebrow">Before you start</p>
+<h3 style="border:none;padding:0;margin:0 0 16px">A little context helps tailor the reading at the end.</h3>
+<label class="context-label">What is your role?</label>
+<input class="context-input" id="d-role" placeholder="e.g. Head of Brand, Communications Director" />
+<label class="context-label">What team or function do you work in?</label>
+<input class="context-input" id="d-team" placeholder="e.g. Brand communications, Editorial, Marketing" />
+<label class="context-label">Where does AI show up in your work today?</label>
+<input class="context-input" id="d-ai" placeholder="e.g. Content drafting, audience segmentation, reporting" />
+<br><br>
+<button class="btn" onclick="diagStartScenarios()">Continue</button>
+</div>
+
+<div id="diag-scenarios" style="display:none">
+<div class="scenario-header">
+  <p class="scenario-tag" id="s-tag">Foundational</p>
+  <p class="scenario-count" id="s-count">Scenario 1 of 9</p>
+</div>
+<p class="scenario-prompt" id="s-prompt"></p>
+<p class="scenario-context" id="s-context"></p>
+<div class="scenario-options" id="s-options"></div>
+<button class="btn" id="s-next" onclick="diagNext()" disabled>Next</button>
+</div>
+
+<div id="diag-output" style="display:none">
+<p class="eyebrow">Literacy Diagnostic</p>
+<h2 style="border:none;padding:0;margin:0 0 4px">Your Profile</h2>
+<p id="d-out-context" style="font-size:13px;color:var(--mid);margin-bottom:28px"></p>
+<div id="d-out-profile"></div>
+<div id="d-out-layers"></div>
+<div id="d-out-reading" class="reading-block"></div>
+<br>
+<button class="btn" onclick="diagReset()">Run again</button>
+<button class="btn btn-ghost" onclick="window.print()" style="margin-left:8px">Print</button>
+<div class="footer">
+  <span>Three-Layer Literacy Diagnostic</span>
+  <span>© Jeannie Joshi 2026</span>
+</div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════ -->
+<!-- BRAND AS MEDIUM -->
+<!-- ════════════════════════════════════ -->
+<div id="sec-brand" class="section">
+
+<p class="eyebrow">Ongoing Research</p>
+<h1>Brand as<br><span>Medium</span></h1>
+<p class="subtitle">What happens to a brand when AI becomes part of how it operates?</p>
+
+<p>The governance questions in this playbook lead to a deeper one. If a brand is a medium — something that shapes how people think, feel and behave — what happens to that medium when AI becomes part of how it reaches people?</p>
+
+<p>This is the subject of ongoing research into brand as medium in the AI era, exploring what brands amplify, what they make obsolete, what they retrieve from earlier forms, and what they become when pushed to their limit.</p>
+
+<p>A working prototype of that research is available as an interactive tool — a diagnostic that applies these four questions to any brand, surfacing effects that conventional brand audits tend to miss.</p>
+
+<br>
+<a href="https://jeanniejoshi.github.io/brand-effects-quadrant/" target="_blank" class="btn" style="display:inline-block;text-decoration:none;">Open the Brand Effects Audit</a>
+
+<div class="footer" style="margin-top:80px;">
+  <span>Brand as Medium · Ongoing Research</span>
+  <span>© Jeannie Joshi 2026</span>
+</div>
+</div>
+
+<script>
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+const SC=[
+{layer:'foundational',label:'Foundational',prompt:'A brief lands on your desk for a high-stakes campaign. The deadline is tight. Your first move is:',ctx:'The brief is complex — multiple audiences, regulatory sensitivities, competing internal priorities.',opts:[
+{t:'Open the generative AI tool and start drafting immediately to get something on the page',s:1},
+{t:'Skim the brief, use AI to summarise the key points, then start writing from the summary',s:2},
+{t:'Read the brief fully, form a point of view on the core tension, then decide whether AI can help with specific elements',s:4},
+{t:'Read, annotate, discuss with a colleague to pressure-test your interpretation — then scope what AI could accelerate without replacing your judgment',s:5}
+]},
+{layer:'foundational',label:'Foundational',prompt:'An AI tool produces a draft that reads well — polished, fluent, on-message. Something feels off but you can\'t immediately name what. You:',ctx:'The draft would pass review. Nobody would flag it.',opts:[
+{t:'Send it forward — it meets the brief and the deadline is close',s:1},
+{t:'Make a few edits to add your voice, then send',s:2},
+{t:'Set it aside. Write a paragraph from scratch to test whether the draft is saying something or just sounding like it is',s:4},
+{t:'Identify what the draft assumes about the audience, check those assumptions against what you know, then rewrite where the model defaulted to pattern rather than insight',s:5}
+]},
+{layer:'foundational',label:'Foundational',prompt:'A junior team member shows you their work. They used AI to produce it and are proud of the speed. The output is competent but generic. You:',ctx:'They are early in their career.',opts:[
+{t:'Praise the efficiency and move on',s:1},
+{t:'Suggest a few edits to make it more distinctive',s:2},
+{t:'Ask what their original thinking was before they opened the tool — and whether the output reflects that or replaced it',s:4},
+{t:'Use it as a conversation about the difference between producing content and developing a point of view — and how AI can support the latter only when the former exists first',s:5}
+]},
+{layer:'environmental',label:'Environmental',prompt:'Your team\'s content is performing well on a platform. Engagement is up. You notice the algorithm seems to be favouring a particular tone and format. You:',ctx:'The metrics look good.',opts:[
+{t:'Keep producing what works — the numbers speak',s:1},
+{t:'Note the pattern but continue — performance is the priority',s:2},
+{t:'Ask what the algorithm might be deprioritising — which audiences, which messages, which formats are being suppressed by the same system rewarding you',s:4},
+{t:'Map the relationship between what the algorithm rewards and what your brand actually needs to say, then decide where those align and where you need to publish against the algorithm\'s preference',s:5}
+]},
+{layer:'environmental',label:'Environmental',prompt:'An AI-powered platform recommends a set of employees for a stretch assignment. The list looks reasonable. You:',ctx:'You are advising the team that owns the platform.',opts:[
+{t:'Approve the list — the system has more data than any one person',s:1},
+{t:'Scan for obvious gaps — gender, function, tenure — and flag if something stands out',s:2},
+{t:'Ask what data the model used, how it weighted different factors, and who it structurally tends to overlook based on how the training data was assembled',s:4},
+{t:'Request the scoring rationale, compare against your own knowledge, identify where system logic and human judgment diverge, and document the differences',s:5}
+]},
+{layer:'environmental',label:'Environmental',prompt:'A colleague says: "We don\'t need to worry about AI governance — our legal team handles compliance." You:',ctx:'The organisation has an AI use policy covering data protection and approved vendors.',opts:[
+{t:'Agree — compliance is handled',s:1},
+{t:'Note that governance is broader than compliance, but don\'t push the point',s:2},
+{t:'Explain the difference between compliance (following rules) and governance (designing how decisions are made, who is accountable, and what happens when rules don\'t cover a situation)',s:4},
+{t:'Point to a specific workflow where AI is shaping decisions that fall outside the compliance framework — and ask who owns accountability for those',s:5}
+]},
+{layer:'operational',label:'Operational',prompt:'A team member asks whether they can use a generative AI tool to draft a sensitive internal communication about restructuring. You:',ctx:'The tool is on the approved list. The communication involves people\'s roles and careers.',opts:[
+{t:'It\'s on the approved list — go ahead',s:1},
+{t:'Say yes, but suggest they review the output carefully',s:2},
+{t:'Ask what data they would need to enter, assess whether it should go into the model, and define what human review looks like before distribution',s:4},
+{t:'Flag that this falls in a category where provenance and human authorship matter — draft human-first, use AI only for structural suggestions, document that the final version is human-authored, route through sign-off',s:5}
+]},
+{layer:'operational',label:'Operational',prompt:'You discover someone pasted a confidential brand strategy document into a general-purpose model. The output was used in a campaign that has already gone live. You:',ctx:'',opts:[
+{t:'Note it and move on — the campaign is live',s:1},
+{t:'Speak to the person and remind them of the policy',s:2},
+{t:'Assess the exposure, notify the appropriate people, and use it to clarify the "never input" list for the whole team',s:4},
+{t:'Conduct a full review: what was entered, what model, what data retention applies, who needs to know, and what systemic change prevents recurrence — then document the incident and response',s:5}
+]},
+{layer:'operational',label:'Operational',prompt:'You are asked to sign off on content going to a regulator. You are told AI was involved but cannot see where or how. You:',ctx:'',opts:[
+{t:'Sign off — it reads well and meets requirements',s:1},
+{t:'Ask generally how AI was used, then sign off if the answer sounds reasonable',s:2},
+{t:'Require a provenance record before signing: which sections were AI-generated, which human-written, what was the editorial review',s:4},
+{t:'Require the provenance record, verify it against the content, ensure the sign-off trail documents AI involvement explicitly, flag that regulator-facing content needs a documented human-authorship standard',s:5}
+]}
+];
+
+let ci=0,resp=[],uctx={};
+
+function diagStart(){
+  document.getElementById('diag-intro').style.display='none';
+  document.getElementById('diag-context').style.display='block';
+  window.scrollTo(0,0);
+}
+
+function diagStartScenarios(){
+  uctx={role:document.getElementById('d-role').value||'Leader',team:document.getElementById('d-team').value||'Team',ai:document.getElementById('d-ai').value||''};
+  ci=0;resp=[];
+  document.getElementById('diag-context').style.display='none';
+  document.getElementById('diag-scenarios').style.display='block';
+  renderS();window.scrollTo(0,0);
+}
+
+function renderS(){
+  const s=SC[ci];
+  const tag=document.getElementById('s-tag');
+  tag.textContent=s.label;tag.className='scenario-tag '+s.layer;
+  document.getElementById('s-count').textContent='Scenario '+(ci+1)+' of '+SC.length;
+  document.getElementById('s-prompt').textContent=s.prompt;
+  document.getElementById('s-context').textContent=s.ctx;
+  const el=document.getElementById('s-options');el.innerHTML='';
+  'abcd'.split('').forEach((l,i)=>{
+    const d=document.createElement('div');d.className='scenario-option';
+    d.innerHTML='<span class="opt-letter">'+l+'</span><span>'+s.opts[i].t+'</span>';
+    d.onclick=function(){selOpt(i)};el.appendChild(d);
+  });
+  document.getElementById('s-next').disabled=true;
+  document.getElementById('progress-bar').style.width=(ci/SC.length*100)+'%';
+}
+
+function selOpt(i){
+  document.querySelectorAll('.scenario-option').forEach(function(o){o.classList.remove('selected')});
+  document.querySelectorAll('.scenario-option')[i].classList.add('selected');
+  resp[ci]={sc:SC[ci],idx:i,score:SC[ci].opts[i].s,text:SC[ci].opts[i].t};
+  document.getElementById('s-next').disabled=false;
+}
+
+function diagNext(){
+  ci++;
+  if(ci>=SC.length){diagOutput();return;}
+  renderS();window.scrollTo(0,0);
+}
+
+function layerScore(l){var r=resp.filter(function(x){return x.sc.layer===l});return r.reduce(function(s,x){return s+x.score},0)/r.length;}
+function s2l(s){
+  if(s<=1.5)return{l:'Starting out',c:'starting-out',p:15};
+  if(s<=2.5)return{l:'Getting there',c:'getting-there',p:35};
+  if(s<=3.5)return{l:'Solid',c:'solid',p:55};
+  if(s<=4.5)return{l:'Strong',c:'strong',p:75};
+  return{l:'Setting the pace',c:'setting-the-pace',p:95};
+}
+
+function diagOutput(){
+  document.getElementById('progress-bar').style.width='100%';
+  document.getElementById('diag-scenarios').style.display='none';
+  document.getElementById('diag-output').style.display='block';
+  var f=s2l(layerScore('foundational')),e=s2l(layerScore('environmental')),o=s2l(layerScore('operational'));
+  document.getElementById('d-out-context').textContent=uctx.role+' · '+uctx.team;
+
+  document.getElementById('d-out-profile').innerHTML=bar('Foundational','foundational',f)+bar('Environmental','environmental',e)+bar('Operational','operational',o);
+  setTimeout(function(){document.querySelectorAll('.profile-bar-fill').forEach(function(b){b.style.width=b.dataset.w})},100);
+
+  var lEl=document.getElementById('d-out-layers');lEl.innerHTML='';
+  [{k:'foundational',n:'Foundational',lv:f,ix:[0,1,2]},{k:'environmental',n:'Environmental',lv:e,ix:[3,4,5]},{k:'operational',n:'Operational',lv:o,ix:[6,7,8]}].forEach(function(layer){
+    var h='';layer.ix.forEach(function(i){if(resp[i])h+='<div class="output-response-block"><p class="output-response-label">Scenario '+(i+1)+'</p><p class="output-response-q">'+resp[i].sc.prompt+'</p><p class="output-response-a">'+resp[i].text+'</p></div>';});
+    lEl.innerHTML+='<div class="output-layer-block"><div class="output-layer-head"><span class="output-layer-name c-'+layer.k[0]+'">'+layer.n+'</span><span class="level-tag '+layer.lv.c+'">'+layer.lv.l+'</span></div>'+h+'</div>';
+  });
+
+  var rEl=document.getElementById('d-out-reading');
+  rEl.innerHTML='<p class="reading-label">Reading</p><p class="reading-text">'+genReading(f,e,o)+'</p>';
+  window.scrollTo(0,0);
+}
+
+function bar(n,cls,lv){
+  return '<div class="profile-bar-wrap"><p class="profile-bar-label">'+n+' — '+lv.l+'</p><div class="profile-bar-track"><div class="profile-bar-fill '+cls+'" data-w="'+lv.p+'%" style="width:0%"></div></div><div class="profile-bar-marks"><span>Starting out</span><span>Getting there</span><span>Solid</span><span>Strong</span><span>Setting the pace</span></div></div>';
+}
+
+function genReading(f,e,o){
+  if(f.p>=75&&e.p>=75&&o.p>=75)return'Across all three layers, responses indicate strong independent judgment, environmental awareness and operational discipline. The profile suggests someone who uses AI as an amplifier of existing thinking rather than a substitute for it.';
+  if(f.p<35)return'The foundational layer — independent reasoning before reaching for the tool — is where the most growth sits. Strengthening this layer changes how the other two function.';
+  if(e.p<35)return'The environmental layer — awareness of how algorithms and systems shape decisions — is where the most growth sits. Operational skill with tools is present; understanding the systems those tools operate within would deepen the quality of judgment applied to AI-assisted work.';
+  if(o.p<35)return'Strong foundations in reasoning and environmental awareness. The operational layer — boundaries, documentation, provenance — is where the most growth sits. The judgment is there; the scaffolding around how AI is used, documented and governed would benefit from more structure.';
+  var levels=[{n:'Foundational',p:f.p},{n:'Environmental',p:e.p},{n:'Operational',p:o.p}];
+  var strongest=levels.reduce(function(a,b){return b.p>a.p?b:a});
+  var weakest=levels.reduce(function(a,b){return b.p<a.p?b:a});
+  return strongest.n+' literacy is the strongest layer. '+weakest.n+' literacy is where the most development sits. The gap between the two shapes how effectively AI is integrated into the team\'s work.';
+}
+
+function diagReset(){
+  document.getElementById('diag-output').style.display='none';
+  document.getElementById('diag-intro').style.display='block';
+  document.getElementById('progress-bar').style.width='0%';
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
